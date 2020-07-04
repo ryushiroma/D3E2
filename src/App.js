@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import axios from 'axios'
 
-function App() {
+/* Desafio 3 - Exercício 2 */
+function App () {
+
+
+  const repList = axios.get('https://api.github.com/users/'+inputValue+'/repos')
+
+  const [repositories, setRepositories] = useState(repList)
+  const [inputValue, setInputValue] = useState('')
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Usuario no GITHUB</h2>
+      <div>
+        <input type='text' value={inputValue} onChange={(event) => setInputValue(event.target.value)} />
+        <button onClick={() => setRepositories([...repositories, { name: inputValue }])}>Submit</button>
+      </div>
+
+      <h2>Existing contacts:</h2>
+      <ul>
+        {repositories.map((repositories) =>
+          <li>{{repositories}}</li>
+        )}
+      </ul>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
